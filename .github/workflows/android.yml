@@ -24,7 +24,7 @@ jobs:
       - name: Extract Android project
         run: |
           mkdir extracted
-          unzip -q '*.zip' -d extracted
+          unzip -oq '*.zip' -d extracted
           PROJECT_DIR=$(dirname "$(find extracted -name settings.gradle -print -quit)")
           echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
 
