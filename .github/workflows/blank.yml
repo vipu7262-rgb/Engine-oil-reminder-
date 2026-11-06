@@ -28,10 +28,10 @@ jobs:
 
       - name: Extract Android project
         run: |
-          test -f EngineOilReminder_v2.5.4_CustomIcon_Navigation.zip
+          test -f EngineOilReminder_v2.5.5_MaterialYou_NavAligned.zip
           rm -rf extracted
           mkdir -p extracted
-          unzip -oq EngineOilReminder_v2.5.4_CustomIcon_Navigation.zip -d extracted
+          unzip -oq EngineOilReminder_v2.5.5_MaterialYou_NavAligned.zip -d extracted
           PROJECT_DIR="$(find extracted -name settings.gradle -type f -print -quit | xargs dirname)"
           test -n "$PROJECT_DIR"
           test -f "$PROJECT_DIR/app/build.gradle"
