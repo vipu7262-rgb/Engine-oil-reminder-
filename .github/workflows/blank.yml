@@ -21,21 +21,27 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Gradle 8.9
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Extract the fixed project archive
+      - name: Extract Android project
         run: |
-          test -f EngineOilReminder_v2.5.2_Fixed.zip
+          test -f EngineOilReminder_v2.5.3_JVM17_Fixed.zip
           rm -rf extracted
           mkdir -p extracted
-          unzip -oq EngineOilReminder_v2.5.2_Fixed.zip -d extracted
+          unzip -oq EngineOilReminder_v2.5.3_JVM17_Fixed.zip -d extracted
           PROJECT_DIR="$(find extracted -name settings.gradle -type f -print -quit | xargs dirname)"
           test -n "$PROJECT_DIR"
           test -f "$PROJECT_DIR/app/build.gradle"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
+
+      - name: Verify Java and Kotlin targets
+        run: |
+          grep -q "sourceCompatibility JavaVersion.VERSION_17" "$PROJECT_DIR/app/build.gradle"
+          grep -q "targetCompatibility JavaVersion.VERSION_17" "$PROJECT_DIR/app/build.gradle"
+          grep -q "jvmTarget = '17'" "$PROJECT_DIR/app/build.gradle"
 
       - name: Build debug APK
         run: gradle -p "$PROJECT_DIR" :app:assembleDebug --stacktrace
