@@ -1,4 +1,4 @@
-name: Build Engine Oil Reminder APK
+name: Build Engine Oil Reminder APK v2.5.8
 
 on:
   workflow_dispatch:
@@ -29,7 +29,7 @@ jobs:
       - name: Extract Android project
         run: |
           set -euo pipefail
-          ARCHIVE="EngineOilReminder_v2.5.7_Fixed.zip"
+          ARCHIVE="EngineOilReminder_v2.5.8_MaterialYou_Transitions.zip"
           test -f "$ARCHIVE"
           rm -rf extracted
           mkdir -p extracted
@@ -39,13 +39,19 @@ jobs:
           test -f "$PROJECT_DIR/app/build.gradle"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
+      - name: Verify Java and Kotlin targets
+        run: |
+          grep -q "sourceCompatibility JavaVersion.VERSION_17" "$PROJECT_DIR/app/build.gradle"
+          grep -q "targetCompatibility JavaVersion.VERSION_17" "$PROJECT_DIR/app/build.gradle"
+          grep -q "jvmTarget = '17'" "$PROJECT_DIR/app/build.gradle"
+
       - name: Build debug APK
         run: gradle -p "$PROJECT_DIR" :app:assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Engine-Oil-Reminder-APK-v2.5.7
+          name: Engine-Oil-Reminder-APK-v2.5.8
           path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           
