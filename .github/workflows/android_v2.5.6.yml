@@ -21,17 +21,19 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Gradle
+      - name: Set up Gradle 8.9
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
       - name: Extract Android project
         run: |
-          test -f EngineOilReminder_v2.5.6_SlidingNavigation.zip
+          set -euo pipefail
+          ARCHIVE="EngineOilReminder_v2.5.7_Fixed.zip"
+          test -f "$ARCHIVE"
           rm -rf extracted
           mkdir -p extracted
-          unzip -oq EngineOilReminder_v2.5.6_SlidingNavigation.zip -d extracted
+          unzip -oq "$ARCHIVE" -d extracted
           PROJECT_DIR="$(find extracted -name settings.gradle -type f -print -quit | xargs dirname)"
           test -n "$PROJECT_DIR"
           test -f "$PROJECT_DIR/app/build.gradle"
@@ -43,7 +45,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Engine-Oil-Reminder-APK-v2.5.6
+          name: Engine-Oil-Reminder-APK-v2.5.7
           path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           
