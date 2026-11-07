@@ -1,4 +1,4 @@
-name: Build Engine Oil Reminder APK v2.5.8
+name: Build Engine Oil Reminder APK v2.5.9
 
 on:
   workflow_dispatch:
@@ -29,7 +29,7 @@ jobs:
       - name: Extract Android project
         run: |
           set -euo pipefail
-          ARCHIVE="EngineOilReminder_v2.5.8_MaterialYou_Transitions.zip"
+          ARCHIVE="EngineOilReminder_v2.5.9_FlatNavigation_AutoTheme.zip"
           test -f "$ARCHIVE"
           rm -rf extracted
           mkdir -p extracted
@@ -51,7 +51,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Engine-Oil-Reminder-APK-v2.5.8
+          name: Engine-Oil-Reminder-APK-v2.5.9
           path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           
